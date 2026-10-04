@@ -1,6 +1,66 @@
-Documentación Oficial: Shaders Plus v2.1.0 (Omega Studios)Shaders Plus v2.1.0 es una herramienta de desarrollo de shaders para Godot 4 que integra un Asistente Visual de Creación, apertura automática de archivos en el editor nativo y una librería central de 30 funciones matemáticas optimizadas (.gdshaderinc) de cero consumo de VRAM.Novedades en la Versión 2.1.0Integración con el Editor de Shaders: Al generar un nuevo shader desde el asistente, el plugin escanea el sistema de archivos (EditorInterface.get_resource_filesystem().scan()) e invoca EditorInterface.edit_resource(), desplegando inmediatamente el panel inferior del Editor de Shaders con el archivo cargado y enfocado.Flujo de Creación de 1 Clic: Elimina la necesidad de buscar manualmente el archivo generado en el panel FileSystem para abrirlo.Estructura del ComplementoPlaintextres://addons/shaders_plus/
+# Documentación Oficial: Shaders Plus v2.1.0
+
+> **Desarrollado por:** Omega Studios  
+> **Motor:** Godot 4  
+
+**Shaders Plus v2.1.0** es una herramienta de desarrollo de shaders para Godot 4 que integra un **Asistente Visual de Creación**, apertura automática de archivos en el editor nativo y una librería central de 30 funciones matemáticas optimizadas (`.gdshaderinc`) de cero consumo de VRAM.
+
+---
+
+## 🚀 Novedades en la Versión 2.1.0
+
+* **Integración con el Editor de Shaders:** Al generar un nuevo shader desde el asistente, el plugin escanea el sistema de archivos (`EditorInterface.get_resource_filesystem().scan()`) e invoca `EditorInterface.edit_resource()`, desplegando inmediatamente el panel inferior del Editor de Shaders con el archivo cargado y enfocado.
+* **Flujo de Creación de 1 Clic:** Elimina la necesidad de buscar manualmente el archivo generado en el panel *FileSystem* para abrirlo.
+
+---
+
+## 📂 Estructura del Complemento
+
+```text
+res://addons/shaders_plus/
 ├── plugin.cfg                           # Configuración del complemento v2.1.0
 ├── plugin.gd                            # Script EditorPlugin + Interfaz GUI + Apertura Auto
 ├── shaders_plus.gdshaderinc             # Librería central con 30 funciones matemáticas
 └── shaders/                             # Plantillas 2D y 3D de referencia
-Flujo de Trabajo con el Asistente VisualAbrir la Herramienta: Selecciona Herramientas (Tools) -> Shaders Plus: Crear Nuevo Shader... en la barra superior de Godot 4.Seleccionar Categoría y Plantilla:2D (CanvasItem): Plantillas para rotación, ondas, distorsión de agua y efecto CRT.3D (Spatial): Plantillas para ruido de valor y escudos de fuerza con efecto Fresnel.Post-Procesado (Screen Shader): Filtros globales con Dithering 4x4 y posterización.Vanilla (Nativo Godot): Archivos limpios de Godot (canvas_item, spatial, particles, fog) sin dependencias.Configurar Ruta y Nombre: Define el nombre del archivo (ejemplo: mi_shader.gdshader) y la carpeta destino (res://).Generación y Enfoque Automático: Haz clic en Crear Shader. El archivo se escribirá en disco, se compilará en el proyecto y se abrirá automáticamente en la pestaña del Editor de Shaders.Matriz de Categorías y PreajustesCategoríaPreajusteTipo de ShaderAuto #includeApertura Automática2D (CanvasItem)2D Vanillacanvas_itemNoSí2D Base + Shaders Pluscanvas_itemSíSí2D Efecto CRT / Scanlinescanvas_itemSíSí2D Ondas / Distorsión Aguacanvas_itemSíSí3D (Spatial)3D VanillaspatialNoSí3D Base + Shaders PlusspatialSíSí3D Escudo FresnelspatialSíSíPost-ProcesadoPantalla Retro Ditheringcanvas_itemSíSíVanilla (Nativo)CanvasItem Vacíocanvas_itemNoSíSpatial VacíospatialNoSíParticles VacíoparticlesNoSíFog VacíofogNoSíCatálogo Completo de Funciones (shaders_plus.gdshaderinc)1. Transformaciones y Coordenadas UVFunciónParámetrosRetornoDescripciónsp_rotate2dvec2 uv, float anglevec2Rota coordenadas UV sobre el centro (0.5, 0.5).sp_pixelatevec2 uv, vec2 resolutionvec2Cuantiza el espacio UV según una resolución fija.sp_twistvec2 uv, float value, vec2 centervec2Aplica una deformación en espiral / torbellino.sp_scale_centeredvec2 uv, vec2 scalevec2Escala concéntricamente el espacio UV.sp_aspect_ratiovec2 uv, vec2 screen_sizevec2Corrije la proporción de aspecto UV.2. Procesamiento de ColorFunciónParámetrosRetornoDescripciónsp_grayscalevec3 rgbvec3Convierte a escala de grises NTSC.sp_posterizevec3 color, float stepsvec3Cuantiza los niveles de color a tonos fijos.sp_brightnessvec3 color, float amountvec3Ajusta el brillo aditivo de un color.sp_contrastvec3 color, float contrastvec3Ajusta el contraste desde el pivote 0.5.sp_saturationvec3 color, float satvec3Ajusta la saturación cromática.sp_hue_shiftvec3 color, float huevec3Desplaza el tono cromático por un ángulo hue.sp_invertvec3 colorvec3Invierte los componentes RGB.3. Ruido y GeneradoresFunciónParámetrosRetornoDescripciónsp_hash21vec2 pfloatGenerador pseudorandom determinista (0.0 a 1.0).sp_value_noisevec2 uvfloatRuido de valor 2D con interpolación suave.sp_sine_wavefloat val, float freq, float speed, float timefloatOscilador senoidal parametrizado.sp_smooth_pulsefloat min_v, float max_v, float speed, float timefloatPulso cíclico entre valor mínimo y máximo.4. Figuras Geométricas 2DFunciónParámetrosRetornoDescripciónsp_circlevec2 uv, vec2 center, float radius, float featherfloatMáscara circular con borde difuminado.sp_boxvec2 uv, vec2 center, vec2 size, float featherfloatMáscara rectangular centrada.sp_ringvec2 uv, vec2 center, float inner_r, float outer_r, float featherfloatAnillo con radio interior y exterior.sp_vignettevec2 uv, float radius, float smoothnessfloatOscurecimiento gradual de bordes.5. Modos de Mezcla (Blending)FunciónParámetrosRetornoDescripciónsp_blend_overlayvec3 base, vec3 blendvec3Mezcla Superposición (Overlay).sp_blend_multiplyvec3 base, vec3 blendvec3Mezcla Multiplicación (Multiply).sp_blend_screenvec3 base, vec3 blendvec3Mezcla Trama (Screen).sp_blend_addvec3 base, vec3 blendvec3Suma aditiva acotada de colores.6. Máscaras y ProyeccionesFunciónParámetrosRetornoDescripciónsp_remapfloat val, float in_min, float in_max, float out_min, float out_maxfloatRe-mapeo proporcional de rangos.sp_scanlinesvec2 uv, float density, float opacityfloatLíneas de escaneo horizontales CRT.sp_dither_4x4vec2 pixel_coord, float color_valfloatMatriz de tramado (Dithering) retro 4x4.sp_fresnelfloat power, vec3 normal, vec3 view_dirfloatFactor Fresnel para bordes 3D.sp_triplanar_uv_xvec3 world_posvec2Proyección UV desde el plano ZY.sp_triplanar_uv_yvec3 world_posvec2Proyección UV desde el plano XZ.
+
+Flujo de Trabajo con el Asistente Visual
+
+    Abrir la Herramienta: Selecciona Herramientas (Tools) -> Shaders Plus: Crear Nuevo Shader... en la barra superior de Godot 4.
+
+    Seleccionar Categoría y Plantilla:
+
+        2D (CanvasItem): Plantillas para rotación, ondas, distorsión de agua y efecto CRT.
+
+        3D (Spatial): Plantillas para ruido de valor y escudos de fuerza con efecto Fresnel.
+
+        Post-Procesado (Screen Shader): Filtros globales con Dithering 4x4 y posterización.
+
+        Vanilla (Nativo Godot): Archivos limpios de Godot (canvas_item, spatial, particles, fog) sin dependencias.
+
+    Configurar Ruta y Nombre: Define el nombre del archivo (ejemplo: mi_shader.gdshader) y la carpeta destino (res://).
+
+    Generación y Enfoque Automático: Haz clic en Crear Shader. El archivo se escribirá en disco, se compilará en el proyecto y se abrirá automáticamente en la pestaña del Editor de Shaders.
+
+## 📊 Matriz de Categorías y Preajustes
+
+| Categoría | Preajuste | Tipo de Shader | Auto #include | Apertura Automática |
+| :--- | :--- | :--- | :---: | :---: |
+| **2D (CanvasItem)** | 2D Vanilla | `canvas_item` | No | Sí |
+| **2D (CanvasItem)** | 2D Base + Shaders Plus | `canvas_item` | Sí | Sí |
+| **2D (CanvasItem)** | 2D Efecto CRT / Scanlines | `canvas_item` | Sí | Sí |
+| **2D (CanvasItem)** | 2D Ondas / Distorsión Agua | `canvas_item` | Sí | Sí |
+| **3D (Spatial)** | 3D Vanilla | `spatial` | No | Sí |
+| **3D (Spatial)** | 3D Base + Shaders Plus | `spatial` | Sí | Sí |
+| **3D (Spatial)** | 3D Escudo Fresnel | `spatial` | Sí | Sí |
+| **Post-Procesado** | Pantalla Retro Dithering | `canvas_item` | Sí | Sí |
+| **Vanilla (Nativo)** | CanvasItem Vacío | `canvas_item` | No | Sí |
+| **Vanilla (Nativo)** | Spatial Vacío | `spatial` | No | Sí |
+| **Vanilla (Nativo)** | Particles Vacío | `particles` | No | Sí |
+| **Vanilla (Nativo)** | Fog Vacío | `fog` | No | Sí |
+
+• 1. Transformaciones y Coordenadas UV: Incluye funciones como sp_rotate2d, sp_pixelate, sp_twist, sp_scale_centered y sp_aspect_ratio para manipular el espacio UV.
+• 2. Procesamiento de Color: Herramientas para ajuste cromático y de tonos, incluyendo sp_grayscale, sp_posterize, sp_brightness, sp_contrast, sp_saturation, sp_hue_shift e sp_invert.
+• 3. Ruido y Generadores: Funciones deterministas y osciladores como sp_hash21, sp_value_noise, sp_sine_wave y sp_smooth_pulse.
+• 4. Figuras Geométricas 2D: Generación de máscaras y efectos visuales mediante sp_circle, sp_box, sp_ring y sp_vignette.
+• 5. Modos de Mezcla (Blending): Operadores de combinación de colores como sp_blend_overlay, sp_blend_multiply, sp_blend_screen y sp_blend_add.
+• 6. Máscaras y Proyecciones: Utilidades avanzadas como sp_remap, sp_scanlines, sp_dither_4x4, sp_fresnel, sp_triplanar_uv_x y sp_triplanar_uv_y.
